@@ -73,16 +73,12 @@ public class LevelGeneration {
     }
 
     public static int generateSet(int currentSet) {
-        System.out.println("test");
         int generatedSet=0;
         switch(currentSet){
             case 0:
-                System.out.println("0");
                 generatedSet = rand.nextInt(2);
-                System.out.println(generatedSet);
                 break;
             case 1:
-                System.out.println("1");
                 generatedSet = currentSet+(rand.nextInt(2)+1);
                 break;
             case 2:
@@ -93,7 +89,6 @@ public class LevelGeneration {
                 else generatedSet=1;
                 break;
         }
-        System.out.println("set " + generatedSet);
         return generatedSet;
     }
 

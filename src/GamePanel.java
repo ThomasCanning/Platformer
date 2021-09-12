@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener {
     int cameraX;
     int currentSet = 0;
     int nextSet = currentSet;
-    int currentPiece = 0;
+    int piecesComplete = 0;
 
     Timer gameTimer;;
 
@@ -36,7 +36,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 if (walls.get(walls.size() - 1).x < 700) {//checks if wall is almost onscreen
                     makeWalls(offset, nextSet, false);
                     offset += 700;
-                    System.out.println(walls.size());
                 }
                 player.set();
                 for (Wall wall : walls) wall.set(cameraX);
@@ -56,13 +55,23 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void makeWalls(int offset, int set, Boolean overrideIndex) {
-        System.out.println("Current set "+currentSet);
+        System.out.println(piecesComplete);
         LevelGeneration generator = new LevelGeneration();
         int s = 50; // size of walls
         nextSet = LevelGeneration.generateSet(currentSet);
         int index = LevelGeneration.generatePiece(currentSet);
         if(overrideIndex==true){
             index=0;
+        }
+        if(piecesComplete>=10){
+            if(set==0||set==3){
+                set=1;
+            }
+            else if(set==1||set==2){
+                set=2;
+            }
+            index=0;
+            nextSet=set;
         }
         for(int y = 0; y<12; y++){
             for(int x=0;x<14;x++){
@@ -72,10 +81,10 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         currentSet=nextSet;
+        piecesComplete++;
     }
 
     public void reset(){
-        System.out.println("reset");
         player.x = 200;
         player.y = 150;
         cameraX = 150;
@@ -84,6 +93,7 @@ public class GamePanel extends JPanel implements ActionListener {
         walls.clear();
         offset = -150;
         currentSet=0;
+        piecesComplete=0;
         makeWalls(offset, currentSet, true);
         offset+=700;
     }
