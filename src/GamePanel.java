@@ -58,17 +58,14 @@ public class GamePanel extends JPanel implements ActionListener {
         int s = 50; // size of walls
         Random rand = new Random();
         int sizeOfSet = generator.setSize(set);
-        System.out.println((generator.setSize(set)-1)+1);
         int index = rand.nextInt(generator.setSize(set)-1)+1;
         if(overrideIndex==true){
             index=0;
         }
-        System.out.println("index = "+index);
         for(int y = 0; y<12; y++){
             for(int x=0;x<14;x++){
                 if(generator.wallGrid[set][index][x][y]==1){
                     walls.add(new Wall(offset+x*50, y*50+100, s, s));
-                    System.out.println("test "+(offset+x*50));
                 }
             }
         }

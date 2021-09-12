@@ -8,7 +8,7 @@ public class LevelGeneration {
 
     public int[][][][] wallGrid;
     int setMax;
-    int piecemax = 0;
+    int piecemax;
 
     LevelGeneration() {
 
@@ -18,7 +18,8 @@ public class LevelGeneration {
         int piece = 0;
         Boolean check = false;
         while (setExists == true) {
-            File checkFile = new File("res/LevelGeneration/" + set + piece + ".txt");
+
+            File checkFile = new File("Platformer/res/LevelGeneration/" + set + piece + ".txt");
             if (checkFile.isFile()) {
                 check = false;
                 piece++;
@@ -38,9 +39,9 @@ public class LevelGeneration {
         for (int s = 0; s < setMax; s++) {
             for (int p = 0; p < piecemax; p++) {
                 try {
-                    File file = new File("res/LevelGeneration/" + s + "" + p + ".txt");
+                    File file = new File("Platformer/res/LevelGeneration/" + s + "" + p + ".txt");
                     if (file.createNewFile()) {
-                        FileWriter writer = new FileWriter("res/LevelGeneration/" + s + "" + p + ".txt");
+                        FileWriter writer = new FileWriter("Platformer/res/LevelGeneration/" + s + "" + p + ".txt");
                         for(int l=1;l<=14;l++){
                             writer.write("00000000000000");
                             writer.write("\r\n");
