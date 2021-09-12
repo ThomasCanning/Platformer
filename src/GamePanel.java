@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,11 +15,14 @@ public class GamePanel extends JPanel implements ActionListener {
 
     int offset;
     int cameraX;
+    int currentSet = 0;
+    int nextSet = currentSet;
+    int currentPiece = 0;
 
     Timer gameTimer;;
 
-    public GamePanel(){
-        this.setLocation(0,0);
+    public GamePanel() {
+        this.setLocation(0, 0);
         this.setBackground(Color.LIGHT_GRAY);
 
         player = new Player(200, 300, this);
@@ -31,19 +33,19 @@ public class GamePanel extends JPanel implements ActionListener {
         gameTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(walls.get(walls.size()-1).x<700) {//checks if wall is almost onscreen
-                    makeWalls(offset, 0,false);
-                    offset +=700;
+                if (walls.get(walls.size() - 1).x < 700) {//checks if wall is almost onscreen
+                    makeWalls(offset, nextSet, false);
+                    offset += 700;
                     System.out.println(walls.size());
                 }
                 player.set();
-                for(Wall wall: walls) wall.set(cameraX);
-                for(int i =0; i<walls.size();i++) {
-                    if(walls.get(i).x<-800) walls.remove(i);
+                for (Wall wall : walls) wall.set(cameraX);
+                for (int i = 0; i < walls.size(); i++) {
+                    if (walls.get(i).x < -800) walls.remove(i);
                 }
                 repaint();
             }
-        },0,17);
+        }, 0, 17);
     }
 
     public void paint(Graphics g){
@@ -54,11 +56,11 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void makeWalls(int offset, int set, Boolean overrideIndex) {
+        System.out.println("Current set "+currentSet);
         LevelGeneration generator = new LevelGeneration();
         int s = 50; // size of walls
-        Random rand = new Random();
-        int sizeOfSet = generator.setSize(set);
-        int index = rand.nextInt(generator.setSize(set)-1)+1;
+        nextSet = LevelGeneration.generateSet(currentSet);
+        int index = LevelGeneration.generatePiece(currentSet);
         if(overrideIndex==true){
             index=0;
         }
@@ -69,6 +71,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
+        currentSet=nextSet;
     }
 
     public void reset(){
@@ -80,7 +83,8 @@ public class GamePanel extends JPanel implements ActionListener {
         player.yspeed = 0;
         walls.clear();
         offset = -150;
-        makeWalls(offset, 0, true);
+        currentSet=0;
+        makeWalls(offset, currentSet, true);
         offset+=700;
     }
 
