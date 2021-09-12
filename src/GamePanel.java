@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements ActionListener {
         int s = 50; // size of walls
         Random rand = new Random();
         int sizeOfSet = generator.setSize(set);
+        System.out.println((generator.setSize(set)-1)+1);
         int index = rand.nextInt(generator.setSize(set)-1)+1;
         if(overrideIndex==true){
             index=0;
